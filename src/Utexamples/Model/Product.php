@@ -27,6 +27,14 @@ class Product extends ModelAbstract
      * @var float The price for this Product
      */
     protected $_price;
+    /**
+     * @var \DateTime The creation date and time for this Product
+     */
+    protected $_created;
+    /**
+     * @var \DateTime The modification date and time for this Product
+     */
+    protected $_modified;
 
     /**
      * Set the product code for this Product
@@ -161,6 +169,60 @@ class Product extends ModelAbstract
     }
 
     /**
+     * Set the creation date for this Product
+     *
+     * @param string | \DateTime $created
+     * @return Product
+     */
+    public function setCreated($created)
+    {
+        if (!$created instanceof \DateTime) {
+            $created = new \DateTime($created);
+        }
+        $this->_created = $created;
+        return $this;
+    }
+
+    /**
+     * Retrievest the creation date from this Product
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        if (null === $this->_created) {
+            $this->setCreated(new \DateTime());
+        }
+        return $this->_created;
+    }
+
+    /**
+     * Sets the modification date for this Product
+     *
+     * @param string | \DateTime $modified
+     * @return Product
+     */
+    public function setModified($modified)
+    {
+        if (!$modified instanceof \DateTime) {
+            $modified = new \DateTime($modified);
+        }
+        $this->_modified = $modified;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getModified()
+    {
+        if (null === $this->_modified) {
+            $this->setModified(new \DateTime());
+        }
+        return $this->_modified;
+    }
+
+    /**
      * Populates the Model with data
      *
      * @param array|\StdClass $row
@@ -176,7 +238,9 @@ class Product extends ModelAbstract
             ->_safeSet($row, 'title', 'setTitle')
             ->_safeSet($row, 'description', 'setDescription')
             ->_safeSet($row, 'image', 'setImage')
-            ->_safeSet($row, 'price', 'setPrice');
+            ->_safeSet($row, 'price', 'setPrice')
+            ->_safeSet($row, 'created', 'setCreated')
+            ->_safeSet($row, 'modified', 'setModified');
     }
 
     /**
@@ -193,6 +257,8 @@ class Product extends ModelAbstract
             'description' => $this->getDescription(),
             'image' => $this->getImage(),
             'price' => $this->getPrice(),
+            'created' => $this->getCreated()->format('Y-m-d H:i:s'),
+            'modified' => $this->getModified()->format('Y-m-d H:i:s'),
         );
     }
 }
