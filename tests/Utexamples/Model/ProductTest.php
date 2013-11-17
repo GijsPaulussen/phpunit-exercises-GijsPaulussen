@@ -32,6 +32,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDatesAreSetAtConstruct()
+    {
+        $product = new Product();
+        $this->assertNotNull($product->getCreated());
+        $this->assertNotNull($product->getModified());
+    }
+
     /**
      * @dataProvider goodDataProvider
      */

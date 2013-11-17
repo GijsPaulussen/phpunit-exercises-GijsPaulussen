@@ -1,5 +1,7 @@
 {
     "require": {
-        "slim/slim": "2.*"
+        "php": ">=5.3.3",
+        "slim/slim": "2.*",
+        "zendframework/zendframework1": "1.12.*"
     }
 }

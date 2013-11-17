@@ -35,7 +35,57 @@ class Product extends ModelAbstract
      * @var \DateTime The modification date and time for this Product
      */
     protected $_modified;
+    /**
+     * @var \Zend_Filter_Input The filter/validator for this Product
+     */
+    protected $_inputFilter;
 
+    /**
+     * Constructor for this Product
+     *
+     * @param null | array | \StdClass $params
+     * @see ModelAbstract
+     */
+    public function __construct($params = null)
+    {
+        $this->_createInputFilter();
+        parent::__construct($params);
+    }
+
+    /**
+     * Helper class to create filter and validation rules
+     *
+     * @access protected
+     */
+    protected function _createInputFilter()
+    {
+        $filters = array (
+            'productId' => array('Int'),
+            'code' => array ('StripTags', 'StringTrim', 'StringToUpper'),
+            'title' => array ('StripTags', 'StringTrim'),
+            'description' => array ('StripTags', 'StringTrim'),
+            'image' => array ('StripTags', 'StringTrim','StringToLower'),
+            'price' => array (),
+        );
+        $validators = array (
+            'productId' => array (
+                'Int',
+                array ('GreaterThan', array ('min' => 0, 'inclusive' => true)),
+            ),
+            'code' => array (
+                'Alnum',
+                array ('StringLength', array ('min' => 5, 'max' => 50)),
+            ),
+            'title' => array ('NotEmpty'),
+            'description' => array ('NotEmpty'),
+            'image' => array ('NotEmpty'),
+            'price' => array (
+                'Float',
+                array ('GreaterThan', array ('min' => 0, 'inclusive' => true)),
+            ),
+        );
+        $this->_inputFilter = new \Zend_Filter_Input($filters, $validators);
+    }
     /**
      * Set the product code for this Product
      *
@@ -44,7 +94,10 @@ class Product extends ModelAbstract
      */
     public function setCode($code)
     {
-        $this->_code = $code;
+        $this->_inputFilter->setData(array ('code' => $code));
+        if ($this->_inputFilter->isValid('code')) {
+            $this->_code = $this->_inputFilter->code;
+        }
         return $this;
     }
 
@@ -66,7 +119,10 @@ class Product extends ModelAbstract
      */
     public function setDescription($description)
     {
-        $this->_description = $description;
+        $this->_inputFilter->setData(array ('description' => $description));
+        if ($this->_inputFilter->isValid('description')) {
+            $this->_description = $this->_inputFilter->description;
+        }
         return $this;
     }
 
@@ -88,7 +144,10 @@ class Product extends ModelAbstract
      */
     public function setImage($image)
     {
-        $this->_image = $image;
+        $this->_inputFilter->setData(array ('image' => $image));
+        if ($this->_inputFilter->isValid('image')) {
+            $this->_image = $this->_inputFilter->image;
+        }
         return $this;
     }
 
@@ -110,7 +169,10 @@ class Product extends ModelAbstract
      */
     public function setPrice($price)
     {
-        $this->_price = $price;
+        $this->_inputFilter->setData(array ('price' => $price));
+        if ($this->_inputFilter->isValid('price')) {
+            $this->_price = $this->_inputFilter->price;
+        }
         return $this;
     }
 
@@ -132,7 +194,10 @@ class Product extends ModelAbstract
      */
     public function setProductId($productId)
     {
-        $this->_productId = $productId;
+        $this->_inputFilter->setData(array ('productId' => $productId));
+        if ($this->_inputFilter->isValid('productId')) {
+            $this->_productId = (int) $this->_inputFilter->productId;
+        }
         return $this;
     }
 
@@ -154,7 +219,10 @@ class Product extends ModelAbstract
      */
     public function setTitle($title)
     {
-        $this->_title = $title;
+        $this->_inputFilter->setData(array ('title' => $title));
+        if ($this->_inputFilter->isValid('title')) {
+            $this->_title = $this->_inputFilter->title;
+        }
         return $this;
     }
 
