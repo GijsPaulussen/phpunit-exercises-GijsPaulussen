@@ -95,6 +95,7 @@ abstract class ModelCollection implements \Countable, \SeekableIterator
      * @link http://php.net/manual/en/seekableiterator.seek.php
      * @param int $position The position to seek to.
      * @return ModelCollection
+     * @throws \OutOfBoundsException
      */
     public function seek($position)
     {
@@ -103,6 +104,32 @@ abstract class ModelCollection implements \Countable, \SeekableIterator
             throw new \OutOfBoundsException('Invalid position provided');
         }
         return $this;
+    }
+
+    /**
+     * Retrieves an array of enitity objects
+     *
+     * @return array
+     */
+    public function getEntities()
+    {
+        return $this->_list;
+    }
+
+    /**
+     * Converts this collection of objects into an array of arrays
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = array ();
+        foreach ($this->getEntities() as $entity) {
+            if ($entity instanceof ModelAbstract) {
+                $array[] = $entity->toArray();
+            }
+        }
+        return $array;
     }
 
     /**

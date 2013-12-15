@@ -51,7 +51,8 @@ class ProductDbTest extends \PHPUnit_Extensions_Database_TestCase
             dirname(__DIR__) . '/_files/selectDataSet.xml'
         );
 
-        $this->assertDataSetsEqual($expectedDataset, $currentDataset);
+        $this->assertDataSetsEqual($expectedDataset, $currentDataset,
+            'Data is not matching our initial state');
     }
 
     public function testProductAddToDatabase()
@@ -74,6 +75,7 @@ class ProductDbTest extends \PHPUnit_Extensions_Database_TestCase
             dirname(__DIR__) . '/_files/addProductDataSet.xml'
         );
         $currentDs = $this->getConnection()->createDataSet(array ('product'));
-        $this->assertDataSetsEqual($expectedDs, $currentDs);
+        $this->assertDataSetsEqual($expectedDs, $currentDs,
+            'Product was not added correctly');
     }
 }

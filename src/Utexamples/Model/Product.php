@@ -185,7 +185,7 @@ class Product extends ModelAbstract
             $this->setValid(false);
             return $this;
         }
-        $this->_price = $this->_inputFilter->price;
+        $this->_price = (float) $this->_inputFilter->price;
         return $this;
     }
 
