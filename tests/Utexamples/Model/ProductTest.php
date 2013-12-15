@@ -60,4 +60,62 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = new Product($data);
         $this->assertEquals($data, $product->toArray());
     }
+
+    public function badDataProvider()
+    {
+        return array (
+            array (
+                1,
+                '',
+                '',
+                '',
+                '',
+                0,
+                '0000-00-00 00:00:00',
+                '0000-00-00 00:00:00',
+            ),
+            array (
+                1,
+                '!@#$%^@^&*{}[]=-/\'\\',
+                'Test Product 1',
+                'This is a full description of test product 1',
+                'image.png',
+                123.95,
+                '2013-11-20 16:00:00',
+                '2013-11-20 17:00:00',
+            ),
+            array (
+                1,
+                '\' OR 1=1; --',
+                'Test Product 1',
+                'This is a full description of test product 1',
+                'image.png',
+                123.95,
+                '2013-11-20 16:00:00',
+                '2013-11-20 17:00:00',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider badDataProvider
+     */
+    public function testProductRejectsBadData(
+        $productId, $code, $title, $description, $image, $price, $created, $modified
+    )
+    {
+        $data = array (
+            'productId' => $productId,
+            'code' => $code,
+            'title' => $title,
+            'description' => $description,
+            'image' => $image,
+            'price' => $price,
+            'created' => $created,
+            'modified' => $modified,
+        );
+
+        $product = new Product($data);
+        $this->assertFalse($product->isValid());
+    }
 }

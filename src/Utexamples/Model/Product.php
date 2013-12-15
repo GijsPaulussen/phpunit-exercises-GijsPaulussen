@@ -41,6 +41,11 @@ class Product extends ModelAbstract
     protected $_inputFilter;
 
     /**
+     * @var bool Status of this model
+     */
+    protected $_valid;
+
+    /**
      * Constructor for this Product
      *
      * @param null | array | \StdClass $params
@@ -74,7 +79,7 @@ class Product extends ModelAbstract
             ),
             'code' => array (
                 'Alnum',
-                array ('StringLength', array ('min' => 5, 'max' => 50)),
+                array ('StringLength', array ('min' => 2, 'max' => 50)),
             ),
             'title' => array ('NotEmpty'),
             'description' => array ('NotEmpty'),
@@ -95,9 +100,11 @@ class Product extends ModelAbstract
     public function setCode($code)
     {
         $this->_inputFilter->setData(array ('code' => $code));
-        if ($this->_inputFilter->isValid('code')) {
-            $this->_code = $this->_inputFilter->code;
+        if (!$this->_inputFilter->isValid('code')) {
+            $this->setValid(false);
+            return $this;
         }
+        $this->_code = $this->_inputFilter->code;
         return $this;
     }
 
@@ -120,9 +127,11 @@ class Product extends ModelAbstract
     public function setDescription($description)
     {
         $this->_inputFilter->setData(array ('description' => $description));
-        if ($this->_inputFilter->isValid('description')) {
-            $this->_description = $this->_inputFilter->description;
+        if (!$this->_inputFilter->isValid('description')) {
+            $this->setValid(false);
+            return $this;
         }
+        $this->_description = $this->_inputFilter->description;
         return $this;
     }
 
@@ -145,9 +154,11 @@ class Product extends ModelAbstract
     public function setImage($image)
     {
         $this->_inputFilter->setData(array ('image' => $image));
-        if ($this->_inputFilter->isValid('image')) {
-            $this->_image = $this->_inputFilter->image;
+        if (!$this->_inputFilter->isValid('image')) {
+            $this->setValid(false);
+            return $this;
         }
+        $this->_image = $this->_inputFilter->image;
         return $this;
     }
 
@@ -170,9 +181,11 @@ class Product extends ModelAbstract
     public function setPrice($price)
     {
         $this->_inputFilter->setData(array ('price' => $price));
-        if ($this->_inputFilter->isValid('price')) {
-            $this->_price = $this->_inputFilter->price;
+        if (!$this->_inputFilter->isValid('price')) {
+            $this->setValid(false);
+            return $this;
         }
+        $this->_price = $this->_inputFilter->price;
         return $this;
     }
 
@@ -195,9 +208,11 @@ class Product extends ModelAbstract
     public function setProductId($productId)
     {
         $this->_inputFilter->setData(array ('productId' => $productId));
-        if ($this->_inputFilter->isValid('productId')) {
-            $this->_productId = (int) $this->_inputFilter->productId;
+        if (!$this->_inputFilter->isValid('productId')) {
+            $this->setValid(false);
+            return $this;
         }
+        $this->_productId = (int) $this->_inputFilter->productId;
         return $this;
     }
 
@@ -220,9 +235,11 @@ class Product extends ModelAbstract
     public function setTitle($title)
     {
         $this->_inputFilter->setData(array ('title' => $title));
-        if ($this->_inputFilter->isValid('title')) {
-            $this->_title = $this->_inputFilter->title;
+        if (!$this->_inputFilter->isValid('title')) {
+            $this->setValid(false);
+            return $this;
         }
+        $this->_title = $this->_inputFilter->title;
         return $this;
     }
 
@@ -328,5 +345,66 @@ class Product extends ModelAbstract
             'created' => $this->getCreated()->format('Y-m-d H:i:s'),
             'modified' => $this->getModified()->format('Y-m-d H:i:s'),
         );
+    }
+
+    public function save()
+    {
+        if (null === $this->getPdo()) {
+            throw new \RuntimeException('Required database connection not set yet');
+        }
+
+        if (0 < $this->getProductId()) {
+            $stmt = $this->getPdo()->prepare(
+                'UPDATE `product` SET
+                    `code` = ?,
+                    `title` = ?,
+                    `description` = ?,
+                    `image` = ?,
+                    `price` = ?,
+                    `created` = ?,
+                    `modified` = ?,
+                    WHERE `productId` = ?'
+            );
+            $stmt->bindParam(1, $this->getCode(), \PDO::PARAM_STR);
+            $stmt->bindParam(2, $this->getTitle(), \PDO::PARAM_STR);
+            $stmt->bindParam(3, $this->getDescription(), \PDO::PARAM_STR);
+            $stmt->bindParam(4, $this->getImage(), \PDO::PARAM_STR);
+            $stmt->bindParam(5, $this->getPrice(), \PDO::PARAM_STR);
+            $stmt->bindParam(6, $this->getCreated()->format('Y-m-d H:i:s'),
+                \PDO::PARAM_STR);
+            $stmt->bindParam(7, $this->getModified()->format('Y-m-d H:i:s'),
+                \PDO::PARAM_STR);
+            $stmt->bindParam(8, $this->getProductId(), \PDO::PARAM_INT);
+
+            $stmt->execute();
+        } else {
+            $stmt = $this->getPdo()->prepare(
+                'INSERT INTO `product` VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+            );
+            $stmt->bindParam(1, $this->getProductId(), \PDO::PARAM_INT);
+            $stmt->bindParam(2, $this->getCode(), \PDO::PARAM_STR);
+            $stmt->bindParam(3, $this->getTitle(), \PDO::PARAM_STR);
+            $stmt->bindParam(4, $this->getDescription(), \PDO::PARAM_STR);
+            $stmt->bindParam(5, $this->getImage(), \PDO::PARAM_STR);
+            $stmt->bindParam(6, $this->getPrice(), \PDO::PARAM_STR);
+            $stmt->bindParam(7, $this->getCreated()->format('Y-m-d H:i:s'),
+                \PDO::PARAM_STR);
+            $stmt->bindParam(8, $this->getModified()->format('Y-m-d H:i:s'),
+                \PDO::PARAM_STR);
+
+            $stmt->execute();
+        }
+    }
+
+    public function setValid($valid = true)
+    {
+        if (false !== $this->_valid) {
+            $this->_valid = (bool) $valid;
+        }
+        return $this;
+    }
+    public function isValid()
+    {
+        return $this->_valid;
     }
 }

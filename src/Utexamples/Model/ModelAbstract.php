@@ -3,6 +3,10 @@ namespace Utexamples\Model;
 abstract class ModelAbstract implements ModelInterface
 {
     /**
+     * @var \PDO The connection to the database
+     */
+    protected $_pdo;
+    /**
      * Constructor for this class
      *
      * @param null|array|StdObj $params
@@ -12,6 +16,25 @@ abstract class ModelAbstract implements ModelInterface
         if (null !== $params) {
             $this->populate($params);
         }
+    }
+
+    /**
+     * Sets the database connection
+     *
+     * @param \PDO
+     */
+    public function setPdo(\PDO $pdo)
+    {
+        $this->_pdo = $pdo;
+        return $this;
+    }
+
+    /**
+     * Retrieves the database connection
+     */
+    public function getPdo()
+    {
+        return $this->_pdo;
     }
 
     /**

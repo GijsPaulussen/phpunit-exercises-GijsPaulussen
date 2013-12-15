@@ -4,5 +4,7 @@ CREATE TABLE product (
   title TEXT,
   description TEXT,
   image TEXT,
-  price REAL
+  price REAL,
+  created TEXT,
+  modified TEXT
 );
