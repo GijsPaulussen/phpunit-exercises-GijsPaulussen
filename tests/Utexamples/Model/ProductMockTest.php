@@ -5,6 +5,12 @@ namespace Utexamples\Model;
 use \PDO;
 use \PDOStatement;
 
+/**
+ * Class ProductMockTest
+ * @package Utexamples\Model
+ *
+ * @group MockTest
+ */
 class ProductMockTest extends \PHPUnit_Framework_TestCase
 {
     public function testProductsCanBeLoadedFromDatabase()
