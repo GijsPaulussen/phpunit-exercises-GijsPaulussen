@@ -3,7 +3,7 @@
   stopOnFailure="true" 
   syntaxCheck="true">
 
-  <testsuite name="Name for my test suite">
+  <testsuite name="Mastering PHPUnit">
     <directory>./</directory>
   </testsuite>
 
