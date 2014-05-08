@@ -1,6 +1,4 @@
 <?php
-namespace Utexamples;
-
 /**
  * Class that allows us to make all sorts of calculations
  */

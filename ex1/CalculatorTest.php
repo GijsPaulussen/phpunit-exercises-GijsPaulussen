@@ -1,7 +1,7 @@
 <?php
-namespace Utexamples;
+require_once 'Calculator.php';
 
-Class CalculatorTest extends \PHPUnit_Framework_TestCase
+class CalculatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testCalculatorCanAddByOne()
     {
