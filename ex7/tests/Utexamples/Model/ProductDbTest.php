@@ -74,8 +74,8 @@ class ProductDbTest extends \PHPUnit_Extensions_Database_TestCase
         );
 
         $product = new Product($data);
-        $product->setPdo($this->_pdo);
-        $product->save();
+        $productMapper = new ProductMapper($this->_pdo);
+        $productMapper->save($product);
 
         $expectedDs = $this->createFlatXMLDataSet(
             dirname(__DIR__) . '/_files/addProductDataSet.xml'
