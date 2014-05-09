@@ -7,6 +7,8 @@
     <directory>./</directory>
   </testsuite>
 
+  <blacklist><directory>../vendor</directory></blacklist>
+
   <logging>
     <log 
       type="coverage-html" 
