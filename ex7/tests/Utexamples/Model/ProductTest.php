@@ -13,7 +13,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array (
                 array (
                     'productId'   => 1,
-                    'code'        => 'TR-0295',
+                    'code'        => 'TR0295',
                     'title'       => 'Box of 250 paperclips',
                     'description' => 'A resealable box with 250 paperclips',
                     'image'       => 'http://www.example.com/img/tr-0295.jpg',
@@ -25,7 +25,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array (
                 array (
                     'productId'   => 2,
-                    'code'        => 'TR-0666',
+                    'code'        => 'TR0666',
                     'title'       => 'Office Warfare multi-shot canon',
                     'description' => 'USB-powered canon with 4 barrels',
                     'image'       => 'http://www.example.com/img/tr-0666.jpg',
@@ -37,19 +37,19 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array (
                 array (
                     'productId'   => 3,
-                    'code'        => '',
-                    'title'       => '',
-                    'description' => '',
-                    'image'       => '',
-                    'price'       => 0,
+                    'code'        => 'TR0666',
+                    'title'       => 'Office Warfare multi-shot canon',
+                    'description' => 'USB-powered canon with 4 barrels',
+                    'image'       => 'http://www.example.com/img/tr-0666.jpg',
+                    'price'       => 120,
                     'created'     => '2012-09-24 08:59:22',
-                    'modified'    => '2012-09-25 10:50:31',
+                    'modified'    => '2012-09-25 10:50:31'
                 ),
             ),
             array (
                 array (
                     'productId'   => 2,
-                    'code'        => 'TR-0666',
+                    'code'        => 'TR0666',
                     'title'       => 'Office Warfare multi-shot canon',
                     'description' => 'USB-powered canon with 4 barrels',
                     'image'       => 'http://www.example.com/img/tr-0666.jpg',
