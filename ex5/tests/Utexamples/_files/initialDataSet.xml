@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <product
+        productId="1"
+        code="TEST CODE1"
+        title="First test product"
+        description="This is our first test product"
+        image="http://www.example.com/image/image.png"
+        price="150.95"
+        created="2013-03-30 10:11:12"
+        modified="2013-12-11 09:08:07"/>
+    <product
+        productId="2"
+        code="TEST CODE2"
+        title="Second test product"
+        description="This is our second test product"
+        image="http://www.example.com/image/image.png"
+        price="19999.00"
+        created="2013-03-30 10:11:12"
+        modified="2013-12-11 09:08:07"/>
+    <product
+        productId="3"
+        code="TEST CODE3"
+        title="Third test product"
+        description="This is our third test product"
+        image="http://www.example.com/image/image.png"
+        price="0.45"
+        created="2013-03-30 10:11:12"
+        modified="2013-12-11 09:08:07"/>
+</dataset>
