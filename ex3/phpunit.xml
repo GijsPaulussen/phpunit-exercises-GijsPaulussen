@@ -1,12 +1,13 @@
 <phpunit 
-  bootstrap="./src/autoload.php"
-  colors="true"
+  colors="true" 
   stopOnFailure="true" 
   syntaxCheck="true">
 
   <testsuite name="Mastering PHPUnit">
     <directory>./</directory>
   </testsuite>
+
+  <blacklist><directory>../vendor</directory></blacklist>
 
   <logging>
     <log 

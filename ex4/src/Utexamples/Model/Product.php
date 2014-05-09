@@ -298,7 +298,7 @@ class Product
      */
     public function getInputFilter()
     {
-        if (null === $this->_initInputFilter()) {
+        if (null === $this->_inputFilter) {
             $this->_initInputFilter();
         }
         return $this->_inputFilter;
