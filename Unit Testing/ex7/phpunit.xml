@@ -1,4 +1,5 @@
-<phpunit 
+<phpunit
+  bootstrap="./src/autoload.php"
   colors="true" 
   stopOnFailure="true" 
   syntaxCheck="true">
